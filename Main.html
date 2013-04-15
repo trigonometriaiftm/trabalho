@@ -1,0 +1,486 @@
+<html>
+<head>
+<title>Teste</title>
+<style>
+#Menu
+{
+float:center;
+-webkit-border-radius: 20px;
+background: rgba(0, 0, 0, 0.09);
+-webkit-margin-before: 10px;
+border-width: 2px;
+border-style: solid;
+}
+#Titulo
+{
+font-family:"Arial";
+font-size:40px;
+text-shadow:1px 1px 10px rgba(255, 143, 0, 0.77);
+}
+#canvas
+{
+border-width: 2px;
+border-style:solid;
+background:rgba(0, 0, 0, 0.09);
+visibility:hidden;
+-webkit-margin-start: 350px;
+-webkit-margin-before: 10px;
+}
+#infos
+{
+border-width: 2px;
+border-style:solid;
+background:rgba(0, 0, 0, 0.09);
+visibility:hidden;
+-webkit-margin-before: 10px;
+-webkit-margin-start: 350px
+}
+#posicionar
+{
+visibility:hidden;
+}
+#gerardesafio
+{
+visibility:hidden;
+}
+#Ini
+{
+-webkit-margin-before: 10px;
+}
+#respostas
+{
+  visibility:hidden;
+}
+#Mostrar
+{
+  visibility:hidden;
+}
+body
+{
+background: rgba(200, 236, 202, 0.66);
+}
+.button 
+{
+  display: inline-block;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 14px/100% Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+	-webkit-border-radius: .5em; 
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+        width: 200px;
+}
+.button:hover 
+{
+	text-decoration: none;
+}
+.button:active 
+{
+	position: relative;
+	top: 1px;
+}
+
+.orange 
+{
+	color: #fef4e9;
+	border: solid 1px #da7c0c;
+	background: #f78d1d;
+	background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
+	background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
+}
+.orange:hover 
+{
+	background: #f47c20;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
+	background: -moz-linear-gradient(top,  #f88e11,  #f06015);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
+}
+.orange:active 
+{
+	color: #fcd3a5;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
+	background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
+}
+
+.caixa
+{
+width: 150px;
+border:none;
+background:transparent;
+}
+
+.blur-animasi1 
+{
+-webkit-transition: all 0.5s ease-in-out;
+-webkit-filter: blur(10px);
+}
+.blur-animasi1:hover 
+{
+-webkit-filter: blur(0px);
+}
+.centralizado
+{
+   position:fixed; 
+   bottom:10%; 
+   right:30%;
+   left:30%;
+   top:10%;
+   z-index:99;
+   width: 500px;
+   height: 500px;
+   background: rgba(0, 0, 0, 0.09);
+   border-style: dotted;
+}
+.fechar
+{
+   position:fixed;
+   right:30.5%;
+   top:7%;
+   z-index:99;
+   border: none;
+   background: rgba(0, 0, 0, 0.09);
+   border-style: dotted;  
+}
+#centralizado1
+{
+  width: 400px;
+  height: 400px;
+  background: #FFF;
+  margin-top:50px;
+}
+</style>
+</head>
+<body>
+<section>
+<div id="Menu">
+<center id="Titulo">Trigonometria</center>
+<p>
+<center><button onClick="Iniciar_App();" id="Ini" class="button orange">Iniciar</button><br>
+<button onClick="posicionar();" id="posicionar" class="button orange">Posicionar</button><br>
+<button onClick="Gerar_Desafio();" id="gerardesafio" class="button orange">Gerar Novo Desafio</button><br>
+<button onClick="Mostrar();" id="Mostrar" class="button orange">Mostrar Ajuda</button><br>
+<div id="respostas">
+Ângulo A: <input type="textbox" id="AA" class="caixa"><br>
+Ângulo B: <input type="textbox" id="AB" class="caixa"><br>
+Ângulo C: <input type="textbox" id="AC" class="caixa"><br>
+Lado A:   <input type="textbox" id="LA" class="caixa"><br>
+Lado B:   <input type="textbox" id="LB" class="caixa"><br>
+Lado C:   <input type="textbox" id="LC" class="caixa blur-animasi1"><br></div>
+<button class="fechar" onClick="Fechar();" id="BotaoFechar">X</button>
+<div class="centralizado" id="Ajuda"><div id="centralizado1"><center><h1>Ajuda</h1></center><br>Yoshiro é um garoto 
+  
+muito curioso<br>que adora medir as coisas, ajude<br>ele a medir diversos objetos do<br>cotidiano utilizando 
+
+leis<br>trigonometricas.</div></div>
+</center>
+</p>
+</div>
+<canvas id="canvas" width="500" height="500"></canvas><br>
+<script>
+var canvas;
+var ctx;
+var WIDTH = 500;
+var HEIGHT = 500;
+var mouse_click = false;
+
+var p0;
+var p1;
+var p2;
+
+var angleA;
+var angleB;
+var angleC;
+var anguloA;
+var anguloB;
+var anguloC;
+var ladoA;
+var ladoB;
+var ladoC;
+var sAngulos;
+
+var ponte_tamanho;
+var pt2;
+var desenhado = false;
+var altura1;
+
+var p1x = WIDTH/2;var p1y = HEIGHT/2;var p2x = (WIDTH/4)*3;var p2y = HEIGHT/2;
+var x = p1x+((p2x-p1x)/2);
+var y = p1y+(p2x-p1x);
+
+var text1 = new Image();
+text1.src = 
+
+"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBY
+
+QERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wA
+
+ARCAAoABQDAREAAhEBAxEB/8QAGgAAAgIDAAAAAAAAAAAAAAAABAUCBgEDB//EACcQAAEDAgUCBwAAAAAAAAAAAAECAwQAEQUSISJxMoEGFDFBgpKh/8QAG
+
+QEAAgMBAAAAAAAAAAAAAAAAAgMAAQQH/8QAHREBAQEBAAEFAAAAAAAAAAAAAQARAiESIkFRcf/aAAwDAQACEQMRAD8A6J4flkFByIHJrind1/onmJy7sEZW
+
+zpY60kAfEBzjUWZKKZCgAgVrPJaQ8fM0wSY4kJISkftL7yUk2nYg4pgiyOLUsDYcqbNkL8wrQD4mtQYWjnMt+FyXwkblW9rCq6/IUI
+
++TLeU2RmXzalm/UOFW5TzpeV1nsKdODCjDnupKdwT2NElMiXsRdyndrwaDKvTJ3pzgcO4nhJpoEdlt
+
++QhXqocJqnKZTclyCjrX9ahlQZDFx5JtdwcAVftIr//Z";
+
+function circle(x,y,r) {
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI*2, true);
+  ctx.fill();
+}
+
+function clear() {
+ ctx.clearRect(0, 0, WIDTH, HEIGHT);
+}
+
+function init() {
+ canvas = document.getElementById("canvas");
+ ctx = canvas.getContext("2d");
+ return setInterval(draw, 10);
+}
+
+function draw() {
+ clear();
+ Desenhar_Triangulo();
+ Contas();
+ Informacoes();
+ /*document.getElementById("InformacoesDispositivo").innerHTML = */
+ Desafio();
+ Desenhar_Personagem();
+}
+
+function Iniciar_App()
+{
+ document.getElementById("Menu").style.float="right";
+ document.getElementById("canvas").style.visibility="visible";
+ document.getElementById("posicionar").style.visibility="visible";
+ document.getElementById("gerardesafio").style.visibility="visible";
+ remove("Ini");
+ document.getElementById("respostas").style.visibility="visible";
+ document.getElementById("Mostrar").style.visibility="visible";
+}
+
+function Gerar_Desafio()
+{
+desenhado = false;
+}
+
+function Desafio()
+{
+  if(desenhado == false)
+{
+  altura1 = Math.random() * HEIGHT;
+  desenhado = true;
+}
+  ctx.beginPath();
+  ctx.rect(WIDTH-40, HEIGHT-36, 20, -altura1);
+  ctx.fillStyle = ctx.createPattern(text1, 'repeat') ;
+  ctx.fill();
+  ctx.strokeStyle = "#000";
+  ctx.stroke();
+}
+
+
+function posicionar()
+{
+ p1x = WIDTH-40;
+ p1y = HEIGHT-altura1-36;
+ p2x = WIDTH-40;
+ p2y = HEIGHT-36;
+}
+
+
+function Desenhar_Triangulo()
+{
+ ctx.fillStyle = "#444444";
+ circle(x, y, 5);
+ circle(p1x, p1y, 5);
+ circle(p2x, p2y, 5);
+ ctx.fillStyle = "transparent";
+ ctx.strokeStyle = 'text1';
+ ctx.lineWidth   = 1;
+ ctx.beginPath();
+ ctx.moveTo(p1x,p1y);
+ ctx.lineTo(p1x,p1y);
+ ctx.lineTo(p2x,p2y);
+ ctx.lineTo(x,y);
+ ctx.lineTo(p1x,p1y);
+ ctx.fill();
+ ctx.stroke();
+ ctx.closePath();
+
+ ctx.fillStyle = "black";
+ ctx.font = "16px Arial";
+
+ ctx.fillText("AA", p1x-30, p1y);
+ ctx.fillText("AB", p2x+10, p2y);
+ ctx.fillText("AC", x + 10, y);
+
+ ctx.beginPath();
+ ctx.rect(0, HEIGHT-36, WIDTH, 36);
+ ctx.fillStyle = 'green';
+ ctx.fill();
+ ctx.strokeStyle = "#000";
+ ctx.stroke();
+}
+var carregou = false;
+function Desenhar_Personagem()
+{
+  if(carregou == false)
+{
+  var imageObj = new Image();
+  imageObj.src = "data:image/png;base64,123"}
+ctx.drawImage(imageObj, WIDTH/2-100, HEIGHT-85);
+}
+function Informacoes()
+{
+ document.getElementById("AA").value = anguloA + "°";
+ document.getElementById("AB").value = anguloB + "°";
+ document.getElementById("AC").value = anguloC + "°";
+ document.getElementById("LA").value = ladoA + "px";
+ document.getElementById("LB").value = ladoB + "px";
+ document.getElementById("LC").value = ladoC + "px";
+}
+
+function Contas()
+{
+p0 = { 'x': p1x, 'y': p1y };
+p1 = { 'x': p2x, 'y': p2y };
+p2 = { 'x': x, 'y': y };
+
+angleA = find_angle(p2,p1,p0);
+angleB = find_angle(p2,p0,p1);
+angleC = find_angle(p1,p0,p2);
+
+anguloA = angleA * (180/Math.PI);
+anguloB = angleB * (180/Math.PI);
+anguloC = angleC * (180/Math.PI);
+
+ladoA = Math.sqrt(((x-p2x)*(x-p2x)) + ((y-p2y)*(y-p2y)));
+ladoB = Math.sqrt(((x-p1x)*(x-p1x)) + ((y-p1y)*(y-p1y)));
+ladoC = Math.sqrt(((p2x-p1x)*(p2x-p1x)) + ((p2y-p1y)*(p2y-p1y)));
+
+}
+
+function find_angle(p0,p1,c) {
+    var p0c = Math.sqrt(Math.pow(c.x-p0.x,2)+
+                        Math.pow(c.y-p0.y,2)); // p0->c (b)   
+    var p1c = Math.sqrt(Math.pow(c.x-p1.x,2)+
+                        Math.pow(c.y-p1.y,2)); // p1->c (a)
+    var p0p1 = Math.sqrt(Math.pow(p1.x-p0.x,2)+
+                         Math.pow(p1.y-p0.y,2)); // p0->p1 (c)
+    return Math.acos((p1c*p1c+p0c*p0c-p0p1*p0p1)/(2*p1c*p0c));
+}
+
+function remove(id)
+{
+    return (elem=document.getElementById(id)).parentNode.removeChild(elem);
+}
+
+function Fechar()
+{
+  document.getElementById("Ajuda").style.visibility="hidden";
+  document.getElementById("BotaoFechar").style.visibility="hidden";
+}
+ 
+function Mostrar()
+{
+  document.getElementById("Ajuda").style.visibility="visible";
+  document.getElementById("BotaoFechar").style.visibility="visible";
+}
+
+function myMove(e){
+ if (mouse_click){
+  x = e.pageX - canvas.offsetLeft;
+  y = e.pageY - canvas.offsetTop;
+ }
+}
+
+function myMoveA(e){
+ if (mouse_click){
+  p1x = e.pageX - canvas.offsetLeft;
+  p1y = e.pageY - canvas.offsetTop;
+ }
+}
+
+function myMoveB(e){
+ if (mouse_click){
+  p2x = e.pageX - canvas.offsetLeft;
+  p2y = e.pageY - canvas.offsetTop;
+ }
+}
+
+function myDown(e){
+ if (e.pageX < x + 15 + canvas.offsetLeft && e.pageX > x - 15 +
+ canvas.offsetLeft && e.pageY < y + 15 + canvas.offsetTop &&
+ e.pageY > y -15 + canvas.offsetTop){
+  x = e.pageX - canvas.offsetLeft;
+  y = e.pageY - canvas.offsetTop;
+  mouse_click = true;
+  canvas.onmousemove = myMove;
+ }
+
+ if (e.pageX < p1x + 15 + canvas.offsetLeft && e.pageX > p1x - 15 +
+ canvas.offsetLeft && e.pageY < p1y + 15 + canvas.offsetTop &&
+ e.pageY > p1y -15 + canvas.offsetTop){
+  p1x = e.pageX - canvas.offsetLeft;
+  p1y = e.pageY - canvas.offsetTop;
+  mouse_click = true;
+  canvas.onmousemove = myMoveA;
+ }
+ if (e.pageX < p2x + 15 + canvas.offsetLeft && e.pageX > p2x - 15 +
+ canvas.offsetLeft && e.pageY < p2y + 15 + canvas.offsetTop &&
+ e.pageY > p2y -15 + canvas.offsetTop){
+  p2x = e.pageX - canvas.offsetLeft;
+  p2y = e.pageY - canvas.offsetTop;
+  mouse_click = true;
+  canvas.onmousemove = myMoveB;
+ }
+
+
+}
+
+function myUp(){
+ mouse_click = false;
+ canvas.onmousemove = null;
+}
+
+init();
+canvas.onmousedown = myDown;
+canvas.onmouseup = myUp;
+
+var touch = false;
+canvas.addEventListener("touchstart", myTouch, false);
+
+function myTouch(e){
+ if (event.targetTouches[0].pageX < x + 15 + canvas.offsetLeft && event.targetTouches[0].pageX > x - 15 +
+ canvas.offsetLeft && event.targetTouches[0].pageY < y + 15 + canvas.offsetTop &&
+ event.targetTouches[0].pageY > y -15 + canvas.offsetTop){
+  x = event.targetTouches[0].pageX - canvas.offsetLeft;
+  y = event.targetTouches[0].pageY - canvas.offsetTop;
+  touch = true;
+  canvas.ontouchmove = myMoveTouch;
+ }
+
+}
+
+function myMoveTouch(e){
+ if (touch){
+  x = event.targetTouches[0].pageX - canvas.offsetLeft;
+  y = event.targetTouches[0].pageY - canvas.offsetTop;
+ }
+}
+</script>
+</section>
+</body>
+</html>
